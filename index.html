@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAS IT HUB — Money Receipt Generator</title>
+<meta name="description" content="Generate professional money receipts and invoices for SAS IT HUB clients." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <h1>Money Receipt Generator</h1>
+      <p>SAS IT HUB — internal billing tool</p>
+    </div>
+    <button id="downloadBtn" class="btn btn-primary">Download PDF</button>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- FORM -->
+  <section class="card form">
+    <h2>Receipt Details</h2>
+
+    <div class="grid-2">
+      <label>Invoice #<input id="invoiceNumber" value="SAS-2026-001" /></label>
+      <label>Date<input type="date" id="invoiceDate" /></label>
+    </div>
+
+    <h3>Client</h3>
+    <label>Client / Company Name<input id="clientName" placeholder="Tusi Haytham Bio Ltd." /></label>
+    <label>Address<textarea id="clientAddress" rows="2"></textarea></label>
+    <label>Contact<input id="clientContact" placeholder="+880 1XXX-XXXXXX" /></label>
+    <label>Website<input id="clientWebsite" placeholder="https://example.com" /></label>
+
+    <h3>Project &amp; Payment</h3>
+    <label>Project Title<textarea id="projectTitle" rows="2" placeholder="Website Development for ..."></textarea></label>
+    <div class="grid-2">
+      <label>Total Value (BDT)<input type="number" id="totalValue" /></label>
+      <label>Payment Label<input id="paymentLabel" value="1st Payment" /></label>
+    </div>
+    <div class="grid-2">
+      <label>Previous Paid (BDT)<input type="number" id="previousPayments" /></label>
+      <label>This Payment (BDT)<input type="number" id="currentPayment" /></label>
+    </div>
+    <label>Notes / Description<textarea id="notes" rows="3" placeholder="Payment received towards the ..."></textarea></label>
+
+    <h3>Signature</h3>
+    <label>Received By (Name)<input id="receivedByName" /></label>
+    <label>Authorized Signature Image
+      <input type="file" id="signatureFile" accept="image/*" />
+    </label>
+    <div id="signaturePreviewWrap" class="hidden">
+      <img id="signaturePreview" alt="signature" />
+      <button type="button" id="removeSignature" class="btn btn-ghost">Remove</button>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section class="preview-wrap">
+    <div id="preview" class="receipt">
+      <div class="receipt-header">
+        <img src="assets/sas-it-hub-logo.png" alt="SAS IT HUB" class="logo" />
+        <div class="contact-line">
+          BSCIC Road, Barishal &nbsp;|&nbsp; Contact: 01558833489 &nbsp;|&nbsp; Email: info@sasithub.com &nbsp;|&nbsp; Website: www.sasithub.com
+        </div>
+      </div>
+
+      <h1 class="receipt-title">MONEY RECEIPT</h1>
+
+      <div class="meta-row">
+        <div><strong>Invoice Number:</strong> <span id="p-invoiceNumber">—</span></div>
+        <div><strong>Invoice Date:</strong> <span id="p-invoiceDate">—</span></div>
+      </div>
+
+      <section class="section">
+        <h2>Received From</h2>
+        <div><strong id="p-clientName">—</strong></div>
+        <div id="p-clientAddressRow" class="hidden">Address: <span id="p-clientAddress"></span></div>
+        <div id="p-clientContactRow" class="hidden">Contact: <span id="p-clientContact"></span></div>
+        <div id="p-clientWebsiteRow" class="hidden">Website: <span id="p-clientWebsite"></span></div>
+      </section>
+
+      <section class="section">
+        <h2>Project Details</h2>
+        <div><strong>Project:</strong> <span id="p-projectTitle">—</span></div>
+        <div><strong>Total Project Value:</strong> BDT <span id="p-totalValue">0</span></div>
+        <div id="p-previousRow" class="hidden"><strong>Previous Payments Received:</strong> BDT <span id="p-previousPayments">0</span></div>
+        <div><strong><span id="p-paymentLabel1">Payment</span> (this receipt):</strong> BDT <span id="p-currentPayment">0</span></div>
+        <div><strong>Remaining Balance:</strong> BDT <span id="p-remaining">0</span></div>
+      </section>
+
+      <table class="amount-box">
+        <tr class="hl">
+          <td><strong>Amount Received (<span id="p-paymentLabel2">Payment</span>):</strong></td>
+          <td class="right"><strong>BDT <span id="p-currentPayment2">0</span>/-</strong></td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>In Words:</strong> Taka <span id="p-words">Zero</span> Only</td>
+        </tr>
+      </table>
+
+      <p id="p-notes" class="notes hidden"></p>
+
+      <div class="signatures">
+        <div class="sig-block">
+          <div class="sig-image-wrap">
+            <img id="p-signature" alt="Signature" class="hidden" />
+          </div>
+          <div class="sig-line">Authorized Signature</div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-name" id="p-receivedByName"></div>
+          <div class="sig-line">Received By</div>
+        </div>
+      </div>
+
+      <div class="footer-note">This is a computer-generated receipt issued by SAS IT HUB.</div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
